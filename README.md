@@ -17,7 +17,7 @@ A simple and fully automated template to help deploy docker images.
 
 ### Credentials
 
-Access to the Development Kubernetes cluster is already provided to all GitLab projects. So no configuration is needed to start deploying to the development cluster.
+Access to the Development Kubernetes cluster and Internal Docker Registry (`$DOCKER_SECRET`) is already provided to all GitLab projects. So no configuration is needed to start deploying to the development cluster.
 
 The DMZ cluster credentials can be provided on a per user/project/group basis. Please contact @wael for more information.
 
