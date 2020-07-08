@@ -1,16 +1,32 @@
 # Docker Deployment Template
 
-A simple template to help deploy docker images.
+A simple and fully automated template to help deploy docker images.
 
 - Builds, tests, deploys and secuity scans your deployments.
 - Deploys to Development and DMZ environments
 - Deployment and Networking settings configured using standard Kubernetes objects.
-
+- The template is *very minimal* as it makes use of standarised functionality in GitLab and Kubernetes.
 
 ### Project Files
 
 - `.gitlab-ci.yml` - controls the build, test, deploy stages. You'll need to edit and extend this for your requirements.
-- `Dockerfile` and `content` directory - Provides a very simple webserver example. Update this with your own Dockerfile.
+- `Dockerfile` and `content` directory - Provides a very simple example webserver. Update this with your own Dockerfile.
 - `kube-deploy/kube-config.sh` - script used by the CI to setup kubernetes connection
 - `kube-deploy/deploy.sh` - script used by the CI to deploy the kubernetes config files
-- `kube-deploy/manifests` - directory of kubernetes config files to apply. By default these configs include: the deployment, networking and docker registry connection details.
+- `kube-deploy/manifests` - directory of kubernetes config files to apply. By default these configs include: the deployment, networking and docker registry connection details. You can add extra config files in here if you need to.
+
+### Credentials
+
+Access to the Development Kubernetes cluster is already provided to all GitLab projects. So no configuration is needed to start deploying to the development cluster.
+
+The DMZ cluster credentials can be provided on a per user/project/group basis. Please contact @wael for more information.
+
+### Environments and Branching Strategies
+
+The template can be adjusted for any branching strategy. By default
+- all branches and tags will deploy to a new seperate development environment. These environments are deployed into completely independant and isolated namespaces in development kubernetes cluster. This makes working on feature branches really nice as you can see the results of your work deployed and tested before integrating into your master or default branch.
+- GitLab automatically manages assigns a unique kubernetes namespace name e.g: `<project_name>-<project_id>-<environment>`. Which might look like: `simple-docker-example-1357-master`
+- Kubernetes automatically creates networking rules to allow immediate access to your development deployment e.g.
+http://simple-docker-example-1357-master.kube-idev.bgslcdevops.test/
+- anything merged into the `production-dmz` branch will deploy to the production dmz kubernetes cluster
+- the `APP_HOSTNAME` variable in the DMZ deploy section of the `.gitlab-ci.yml` file should be set to the final application hostname (e.g. `simple-docker-example.bgs.ac.uk`).
