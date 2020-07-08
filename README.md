@@ -2,10 +2,11 @@
 
 A simple and fully automated template to help deploy docker images.
 
+- The template is *very minimal* as it makes use of standardised functionality in GitLab and Kubernetes.
 - Builds, tests, deploys and secuity scans your deployments.
 - Deploys to Development and DMZ environments
 - Deployment and Networking settings configured using standard Kubernetes objects.
-- The template is *very minimal* as it makes use of standarised functionality in GitLab and Kubernetes.
+
 
 ### Project Files
 
