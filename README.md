@@ -25,9 +25,11 @@ The DMZ cluster credentials can be provided on a per user/project/group basis. P
 ### Environments and Branching Strategies
 
 The template can be adjusted for any branching strategy. By default
-- all branches and tags will deploy to a new seperate development environment. These environments are deployed into completely independant and isolated namespaces in development kubernetes cluster. This makes working on feature branches really nice as you can see the results of your work deployed and tested before integrating into your master or default branch.
+- all branches and tags will deploy to a new seperate development environment.
+- environments are deployed into completely independent and isolated namespaces in the development kubernetes cluster. This makes working on feature branches really nice as you can see the results of your work deployed and tested before integrating into your master or default branch.
 - GitLab automatically manages assigns a unique kubernetes namespace name e.g: `<project_name>-<project_id>-<environment>`. Which might look like: `simple-docker-example-1357-master`
 - Kubernetes automatically creates networking rules to allow immediate access to your development deployment e.g.
 http://simple-docker-example-1357-master.kube-idev.bgslcdevops.test/
+- development environments are automatically removed after 1 week or when the branch is deleted or by manually running the stop job.
 - anything merged into the `production-dmz` branch will deploy to the production dmz kubernetes cluster
 - the `APP_HOSTNAME` variable in the DMZ deploy section of the `.gitlab-ci.yml` file should be set to the final application hostname (e.g. `simple-docker-example.bgs.ac.uk`).
