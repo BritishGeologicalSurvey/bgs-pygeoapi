@@ -1,0 +1,20 @@
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ${APP_NAME}
+  labels:
+    app: ${APP_NAME}
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+    - host: ${APP_HOSTNAME}
+      http:
+        paths:
+        - path: /
+          backend:
+            serviceName: ${APP_NAME}
+            servicePort: 80
