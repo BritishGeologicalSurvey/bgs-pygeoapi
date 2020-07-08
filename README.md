@@ -7,6 +7,14 @@ A simple and fully automated template to help deploy docker images.
 - Deploys to Development and DMZ environments
 - Deployment and Networking settings configured using standard Kubernetes objects.
 
+### Project Files
+
+- `.gitlab-ci.yml` - controls the build, test, deploy stages. You'll need to edit and extend this for your requirements.
+- `Dockerfile` and `content` directory - Provides a very simple example webserver. Update this with your own Dockerfile.
+- `kube-deploy/kube-config.sh` - script used by the CI to setup kubernetes connection
+- `kube-deploy/deploy.sh` - script used by the CI to deploy the kubernetes config files
+- `kube-deploy/manifests` - directory of kubernetes config files to apply. By default these configs include: the deployment, networking and docker registry connection details. You can add extra config files in here if you need to.
+
 ### Credentials
 
 Access to the Development Kubernetes cluster and Internal Docker Registry (`$DOCKER_SECRET`) is already provided to all GitLab projects. So no configuration is needed to start deploying to the development cluster.
@@ -29,12 +37,3 @@ http://simple-docker-example-1357-master.kube-idev.bgslcdevops.test/
 ### Tests and Sceuirty Scans
 
 At the bottom of the CI file there is a template `include` section where a list of standard GitLab templates are imported to test and scan your deployments. The type of scans to include is dependant on your project. As they are generic checks/tests, some of them work better than others. A key one to include for docker builds is the `Container-Scanning.gitlab-ci.yml` template. Results are stored in artifacts, within the secuity pages of the projects and also visible in Merge Requests.
-
-
-### Project Files
-
-- `.gitlab-ci.yml` - controls the build, test, deploy stages. You'll need to edit and extend this for your requirements.
-- `Dockerfile` and `content` directory - Provides a very simple example webserver. Update this with your own Dockerfile.
-- `kube-deploy/kube-config.sh` - script used by the CI to setup kubernetes connection
-- `kube-deploy/deploy.sh` - script used by the CI to deploy the kubernetes config files
-- `kube-deploy/manifests` - directory of kubernetes config files to apply. By default these configs include: the deployment, networking and docker registry connection details. You can add extra config files in here if you need to.
