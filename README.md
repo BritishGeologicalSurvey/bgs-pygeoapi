@@ -34,6 +34,6 @@ http://simple-docker-example-1357-master.kube-idev.bgslcdevops.test/
 - the `APP_HOSTNAME` variable in the DMZ deploy section of the `.gitlab-ci.yml` file should be set to the final application hostname (e.g. `simple-docker-example.bgs.ac.uk`).
 - it is likely for new applications that an external DNS entry needs to be requested and pointed at the DMZ kubernetes cluster. @agd or sns can do this.
 
-### Tests and Sceuirty Scans
+### Tests and Secuirty Scans
 
 At the bottom of the CI file there is a template `include` section where a list of standard GitLab templates are imported to test and scan your deployments. The type of scans to include is dependant on your project. As they are generic checks/tests, some of them work better than others. A key one to include for docker builds is the `Container-Scanning.gitlab-ci.yml` template. Results are stored in artifacts, within the secuity pages of the projects and also visible in Merge Requests.
