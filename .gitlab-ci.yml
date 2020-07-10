@@ -68,7 +68,7 @@ deploy to kube dev:
   environment:
     name: "${CI_COMMIT_REF_SLUG}"
     auto_stop_in: 1 week
-    url: http://${APP_HOSTNAME}
+    url: http://$APP_HOSTNAME
     on_stop: remove from kube dev
 
 # Remove from Internal Kube Cluster - Manual Job
@@ -108,7 +108,7 @@ deploy to kube prod dmz:
     - if: '$CI_COMMIT_BRANCH == "production-dmz"'
   environment:
     name: production-dmz
-    url: https://${APP_HOSTNAME}
+    url: https://$APP_HOSTNAME
     on_stop: remove from kube prod dmz
 
 # Remove from Production DMZ Kube Cluster - Manual Job
