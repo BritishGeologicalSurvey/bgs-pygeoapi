@@ -75,10 +75,11 @@ deploy to kube dev:
 remove from kube dev:
   stage: deploy
   image: ${CI_REGISTRY}/devops/k8s-kubectl:internal-dev
+  variables:
+    GIT_STRATEGY: none
   tags:
     - k8s
   script:
-  - source kube-deploy/kube-config.sh
   - kubectl delete ns ${KUBE_NAMESPACE}
   rules:
     - if: '$CI_COMMIT_BRANCH != "production-dmz"'
@@ -109,27 +110,6 @@ deploy to kube prod dmz:
   environment:
     name: production-dmz
     url: https://$APP_HOSTNAME
-    on_stop: remove from kube prod dmz
-
-# Remove from Production DMZ Kube Cluster - Manual Job
-remove from kube prod dmz:
-  stage: deploy
-  image: ${CI_REGISTRY}/devops/k8s-kubectl:internal-dev
-  variables:
-    KUBE_URL: ${KUBE_URL_DMZ}
-    KUBE_TOKEN: ${KUBE_TOKEN_DMZ}
-  tags:
-    - k8s
-  script:
-  - source kube-deploy/kube-config.sh
-  - kubectl delete ns ${KUBE_NAMESPACE}
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "production-dmz"'
-      when: manual
-      allow_failure: true
-  environment:
-    name: production-dmz
-    action: stop
 
 # GitLab Templates:
 include:
