@@ -2,7 +2,7 @@
 variables:
   APP_NAME: ${CI_PROJECT_NAME}
   INTERNAL_DOCKER_IMAGE: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}
-  DMZ_DOCKER_IMAGE: ${DMZ_REGISTRY}/${APP_NAME}:${CI_COMMIT_REF_SLUG}
+  DMZ_DOCKER_IMAGE: ${DMZ_REGISTRY}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_SLUG}
 
 # CI Stages
 stages:
@@ -94,7 +94,7 @@ deploy to kube prod dmz:
   stage: deploy
   image: ${CI_REGISTRY}/devops/k8s-kubectl:internal-dev
   variables:
-    APP_HOSTNAME: ${APP_NAME}.bgs.ac.uk
+    APP_HOSTNAME: ${KUBE_NAMESPACE}.bgs.ac.uk
     KUBE_URL: ${KUBE_URL_DMZ}
     KUBE_TOKEN: ${KUBE_TOKEN_DMZ}
   tags:
