@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pv-${APP_NAME}
+  name: pv-${KUBE_NAMESPACE}
   labels: 
-    app: ${APP_NAME}
+    app: ${KUBE_NAMESPACE}
 spec:
   capacity:
     storage: 1Gi
@@ -13,5 +13,5 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    path: /nfs-storage/${APP_NAME}
+    path: /nfs-storage/${KUBE_NAMESPACE}
     server: k8s-nfs-server.bgslcdevops.test

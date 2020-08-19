@@ -1,6 +1,5 @@
 # Main Application Variables
 variables:
-  APP_NAME: ${CI_PROJECT_NAME}
   INTERNAL_DOCKER_IMAGE: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}
   DMZ_DOCKER_IMAGE: ${DMZ_REGISTRY}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_SLUG}
 
@@ -66,9 +65,9 @@ deploy to kube dev:
   rules:
     - if: '$CI_COMMIT_BRANCH != "production-dmz"'
   environment:
-    name: "${CI_COMMIT_REF_SLUG}"
+    name: $CI_COMMIT_REF_SLUG
     auto_stop_in: 1 week
-    url: http://$APP_HOSTNAME
+    url: http://$KUBE_NAMESPACE.kube-idev.bgslcdevops.test
     on_stop: remove from kube dev
 
 # Remove from Internal Kube Cluster - Manual Job
@@ -86,7 +85,7 @@ remove from kube dev:
       when: manual
       allow_failure: true
   environment:
-    name: "${CI_COMMIT_REF_SLUG}"
+    name: $CI_COMMIT_REF_SLUG
     action: stop
 
 # Deploy to Production DMZ Kube Cluster Automatically when production-dmz branch

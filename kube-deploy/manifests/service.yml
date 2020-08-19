@@ -2,12 +2,12 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: ${APP_NAME}
+  name: ${KUBE_NAMESPACE}
   labels:
-    app: ${APP_NAME}
+    app: ${KUBE_NAMESPACE}
 spec:
   selector:
-    app: ${APP_NAME}
+    app: ${KUBE_NAMESPACE}
   type: ClusterIP
   ports:
   - protocol: TCP

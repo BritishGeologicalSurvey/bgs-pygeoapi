@@ -3,9 +3,9 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: ${APP_NAME}
+  name: ${KUBE_NAMESPACE}
   labels:
-    app: ${APP_NAME}
+    app: ${KUBE_NAMESPACE}
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
@@ -16,5 +16,5 @@ spec:
         paths:
         - path: /
           backend:
-            serviceName: ${APP_NAME}
+            serviceName: ${KUBE_NAMESPACE}
             servicePort: 80
