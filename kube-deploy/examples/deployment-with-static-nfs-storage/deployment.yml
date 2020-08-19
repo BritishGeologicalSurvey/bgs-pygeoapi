@@ -1,0 +1,43 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: ${APP_NAME}
+  annotations:
+    app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}
+    app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}
+    deploy-timestamp: "${DEPLOY_TIMESTAMP}"
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: ${APP_NAME}
+  template:
+    metadata:
+      labels:
+        app: ${APP_NAME}
+      annotations:
+        deploy-timestamp: "${DEPLOY_TIMESTAMP}"
+        app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}
+        app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}  
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+      - name: ${APP_NAME}
+        image: "${DEPLOY_IMAGE}"
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 20Mi
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name: pvc-${APP_NAME}
+            mountPath: /mnt/${APP_NAME}
+      volumes:
+        - name: pvc-${APP_NAME}
+          persistentVolumeClaim:
+            claimName: pvc-${APP_NAME}
