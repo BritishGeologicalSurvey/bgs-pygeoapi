@@ -168,7 +168,7 @@ resources:
         providers:
             - type: feature
               name: GeoJSON
-              data: tests/data/bedrock_geologywgs84.geojson
+              data: tests/data/bedrock_geology.geojson
               id_field: id       
 
     gdps-temperature:
