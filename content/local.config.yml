@@ -20,7 +20,7 @@ logging:
 
 metadata:
     identification:
-        title: pygeoapi Demo instance - running latest stable 0.8.0 pygeoapi version
+        title: BGS pygeoapi Demo instance
         description: pygeoapi provides an API to geospatial data
         keywords:
             - geospatial
@@ -36,17 +36,17 @@ metadata:
         name: pygeoapi Development Team
         url: https://pygeoapi.io
     contact:
-        name: Kralidis, Tom
-        position: Lead Dev
-        address: Mailing Address
-        city: City
-        stateorprovince: Administrative Area
-        postalcode: Zip or Postal Code
-        country: Canada
-        phone: +xx-xxx-xxx-xxxx
-        fax: +xx-xxx-xxx-xxxx
-        email: you@example.org
-        url: Contact URL
+        name: Lewis, Edd
+        position: Standards Lead
+        address: British Geological Survey
+        city: Keyworth
+        stateorprovince: Nottinghamshire
+        postalcode: NG12 5GG
+        country: UK
+        phone: https://www.bgs.ac.uk/staff/profiles/51349.html
+        fax: https://www.bgs.ac.uk/staff/profiles/51349.html
+        email: https://www.bgs.ac.uk/staff/profiles/51349.html
+        url: https://www.bgs.ac.uk/staff/profiles/51349.html
         hours: Hours of Service
         instructions: During hours of service.  Off on weekends.
         role: pointOfContact
