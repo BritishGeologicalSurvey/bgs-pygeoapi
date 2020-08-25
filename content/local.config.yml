@@ -147,7 +147,7 @@ resources:
 
     625k:
         type: collection
-        title: BGS Geology 625k 
+        title: BGS Geology 625k Bedrock
         description: Generalised digital geological map data based on BGS's published poster maps of the UK (North and South). Bedrock related themes created by generalisation of 1:50 000 data to make the 2007 fifth edition Bedrock Geology map. 
         keywords:
             - Geology
@@ -167,10 +167,9 @@ resources:
                 end: null  # or empty (either means open ended)
         providers:
             - type: feature
-              name: SQLiteGPKG
-              data: ./tests/data/625k_V5_Geology_All.gpkg
-              id_field: fid
-              table: 625k_V5_BEDROCK_Geology_Polygons           
+              name: GeoJSON
+              data: tests/data/bedrock_geology.geojson
+              id_field: fid       
 
     gdps-temperature:
         type: collection
