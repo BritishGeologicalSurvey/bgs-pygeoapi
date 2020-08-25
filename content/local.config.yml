@@ -49,21 +49,21 @@ logging:
 
 metadata:
     identification:
-        title: BGS pygeoapi instance
+        title: BGS pygeoapi Instance
         description: pygeoapi provides an API to geospatial data
         keywords:
             - geospatial
             - data
             - api
         keywords_type: theme
-        terms_of_service: https://creativecommons.org/licenses/by/4.0/
-        url: http://example.org
+        terms_of_service: http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+        url: https://bgs.ac.uk
     license:
-        name: CC-BY 4.0 license
-        url: https://creativecommons.org/licenses/by/4.0/
+        name: Open Government Licence
+        url: http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
     provider:
-        name: Organization Name
-        url: https://pygeoapi.io
+        name: British Geological Survey
+        url: https://bgs.ac.uk
     contact:
         name: Lewis, Edward
         position: Standards Lead
