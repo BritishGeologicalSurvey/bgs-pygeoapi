@@ -1,3 +1,9 @@
+# PyGeoAPI
+
+Test deployment of [PyGeoAPI](https://pygeoapi.io/)
+
+http://pygeoapi-1430-master.kube-idev.bgslcdevops.test 
+
 # Docker Deployment Template
 
 A simple and fully automated template to help deploy docker images.
