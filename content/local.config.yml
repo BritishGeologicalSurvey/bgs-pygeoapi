@@ -30,8 +30,8 @@
 server:
     bind:
         host: 0.0.0.0
-        port: 5000
-    url: http://localhost:5000
+        port: 80
+    url: http://pygeoapi-1430-bgs-config.kube-idev.bgslcdevops.test/
     mimetype: application/json; charset=UTF-8
     encoding: utf-8
     language: en-US
@@ -49,7 +49,7 @@ logging:
 
 metadata:
     identification:
-        title: BGS pygeoapi default instance
+        title: BGS pygeoapi instance
         description: pygeoapi provides an API to geospatial data
         keywords:
             - geospatial
@@ -65,17 +65,17 @@ metadata:
         name: Organization Name
         url: https://pygeoapi.io
     contact:
-        name: Lastname, Firstname
-        position: Position Title
-        address: Mailing Address
-        city: City
-        stateorprovince: Administrative Area
-        postalcode: Zip or Postal Code
-        country: Country
-        phone: +xx-xxx-xxx-xxxx
-        fax: +xx-xxx-xxx-xxxx
-        email: you@example.org
-        url: Contact URL
+        name: Lewis, Edward
+        position: Standards Lead
+        address: British Geological Survey
+        city: Keyworth
+        stateorprovince: Nottinghamshire
+        postalcode: NG12 5GG
+        country: UK
+        phone: https://www.bgs.ac.uk/staff/profiles/51349.html
+        fax: https://www.bgs.ac.uk/staff/profiles/51349.html
+        email: https://www.bgs.ac.uk/staff/profiles/51349.html
+        url: https://www.bgs.ac.uk/staff/profiles/51349.html
         hours: Mo-Fr 08:00-17:00
         instructions: During hours of service. Off on weekends.
         role: pointOfContact
