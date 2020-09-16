@@ -188,8 +188,8 @@ resources:
 
     UKGEOSSensors:
         type: collection
-        title: BGS Geology 625k Superficial
-        description: Generalised digital geological map data based on BGS's published poster maps of the UK (North and South). Bedrock related themes created by generalisation of 1:50 000 data to make the 2007 fifth edition Bedrock Geology map. 
+        title: UKGEOSSensors
+        description: UKGEOSSensors 
         keywords:
             - geology
             - britain
