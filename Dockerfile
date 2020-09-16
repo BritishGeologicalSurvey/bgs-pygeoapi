@@ -1,4 +1,4 @@
-FROM geopython/pygeoapi
+FROM geopython/pygeoapi:0.8.0
 
 COPY ./content/local.config.yml /pygeoapi/local.config.yml
 COPY ./content/bedrock_geology.geojson ./tests/data/bedrock_geology.geojson

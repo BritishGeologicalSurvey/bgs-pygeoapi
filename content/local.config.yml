@@ -214,9 +214,8 @@ resources:
                   dbname: istsos
                   user: istsos
                   password: i!TY!OGQ0lwUcb4zMN2b
-                  search_path: [osm, public]
+                  search_path: [taketwo]
               id_field: id_foi
               table: foi
               geom_field: geom_foi                                    
-
 
