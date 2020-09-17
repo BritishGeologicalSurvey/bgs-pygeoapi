@@ -28,9 +28,5 @@ spec:
       - name: ${KUBE_NAMESPACE}
         image: "${DEPLOY_IMAGE}"
         imagePullPolicy: Always
-        resources:
-          requests:
-            cpu: 100m
-            memory: 20Mi
         ports:
         - containerPort: 80
