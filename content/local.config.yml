@@ -185,37 +185,3 @@ resources:
               name: GeoJSON
               data: tests/data/superficial_geology.geojson
               id_field: fid     
-
-    UKGEOSSensors:
-        type: collection
-        title: UKGEOSSensors
-        description: UKGEOSSensors 
-        keywords:
-            - geology
-            - britain
-        links:
-            - type: text/html
-              rel: canonical
-              title: information
-              href: https://www.bgs.ac.uk/products/digitalmaps/DiGMapGB_625.html
-              hreflang: en-UK
-        extents:
-            spatial:
-                bbox: [-9,49.5,3,61]
-                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-            temporal:
-                begin: 2011-11-11
-                end: null  # or empty (either means open ended)
-        providers:
-            - type: feature
-              name: PostgreSQL
-              data:
-                  host: hwl-sensor-api-staging.bgslcdevops.test:5432
-                  dbname: istsos
-                  user: istsos
-                  password: i!TY!OGQ0lwUcb4zMN2b
-                  search_path: [taketwo]
-              id_field: id_foi
-              table: foi
-              geom_field: geom_foi                                    
-
