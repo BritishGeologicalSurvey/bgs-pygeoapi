@@ -209,6 +209,6 @@ resources:
         providers:
             - type: feature
               name: Elasticsearch
-              data: http://localhost:9200/ne_110m_populated_places_simple
+              data: http://hwlelastic01.ad.nerc.ac.uk:9200/dykes_subset
               id_field: geonameid
-              time_field: datetimefield
+              
