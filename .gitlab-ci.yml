@@ -133,7 +133,7 @@ container_scanning:
   tags:
     - k8s
   variables:
-    CI_APPLICATION_REPOSITORY: "${CI_REGISTRY_IMAGE}/pygeoapi"
+    CI_APPLICATION_REPOSITORY: "${CI_REGISTRY_IMAGE}"
     CI_APPLICATION_TAG: "${CI_COMMIT_REF_SLUG}"
     CLAIR_TIMEOUT: "10"
   artifacts:
