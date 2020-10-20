@@ -88,26 +88,27 @@ remove from kube dev:
     name: $CI_COMMIT_REF_SLUG
     action: stop
 
-# Deploy to Production DMZ Kube Cluster Automatically when production-dmz branch
-deploy to kube prod dmz:
+# Deploy to Staging DMZ Kube Cluster Automatically when staging-dmz branch
+deploy to kube staging dmz:
   stage: deploy
   image: ${CI_REGISTRY}/devops/k8s-kubectl:internal-dev
   variables:
-    APP_HOSTNAME: ${KUBE_NAMESPACE}.bgs.ac.uk
-    KUBE_URL: ${KUBE_URL_DMZ}
-    KUBE_TOKEN: ${KUBE_TOKEN_DMZ}
+    APP_HOSTNAME: osgeodev.bgs.ac.uk
   tags:
     - k8s
   script:
   - export DOCKER_SECRET=${DMZ_DOCKER_SECRET}
-  - export DEPLOY_IMAGE=${DMZ_DOCKER_IMAGE}
+  - export DEPLOY_IMAGE=${DMZ_DOCKER_IMAGE_GEONETWORK}
+  - export DOCKER_IMAGE_POSTGRES=${DMZ_DOCKER_IMAGE_POSTGRES}
+  - export HTTP_PROXY="http://192.171.141.62:8080"
+  - export HTTPS_PROXY="http://192.171.141.62:8080"
   - /bin/bash kube-deploy/deploy.sh
   - echo "Deployment Available Here - https://${APP_HOSTNAME}"
-  - "echo For testing - curl --header \"Host: ${APP_HOSTNAME}\" https://192.171.157.15 -vvv -k"
+  - "echo For testing - curl --header \"Host: ${APP_HOSTNAME}\" https://192.171.157.24 -vvv -k"
   rules:
-    - if: '$CI_COMMIT_BRANCH == "production-dmz"'
+    - if: '$CI_COMMIT_BRANCH == "staging-dmz"'
   environment:
-    name: production-dmz
+    name: staging-dmz
     url: https://$APP_HOSTNAME
 
 # GitLab Templates:
@@ -127,12 +128,12 @@ dast:
   artifacts:
     paths: [gl-dast-report.json]
   rules:
-    - if: '$CI_COMMIT_BRANCH != "production-dmz"'
+    - if: '$CI_COMMIT_BRANCH != "staging-dmz"'
 container_scanning:
   tags:
     - k8s
   variables:
-    CI_APPLICATION_REPOSITORY: "${CI_REGISTRY_IMAGE}"
+    CI_APPLICATION_REPOSITORY: "${CI_REGISTRY_IMAGE}/pygeoapi"
     CI_APPLICATION_TAG: "${CI_COMMIT_REF_SLUG}"
     CLAIR_TIMEOUT: "10"
   artifacts:
@@ -144,7 +145,7 @@ performance:
   tags:
     - k8s
   rules:
-    - if: '$CI_COMMIT_BRANCH != "production-dmz"'
+    - if: '$CI_COMMIT_BRANCH != "staging-dmz"'
 
 #code_quality:
 #  tags:
