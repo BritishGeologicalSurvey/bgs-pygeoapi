@@ -50,7 +50,7 @@ deploy to kube dev:
   stage: deploy
   image: ${CI_REGISTRY}/devops/k8s-kubectl:internal-dev
   variables:
-    APP_HOSTNAME: ${KUBE_NAMESPACE}.kube-idev.bgslcdevops.test/pygeoapi/
+    APP_HOSTNAME: ${KUBE_NAMESPACE}.kube-idev.bgslcdevops.test
   tags:
     - k8s
   script:
@@ -93,7 +93,7 @@ deploy to kube staging dmz:
   stage: deploy
   image: ${CI_REGISTRY}/devops/k8s-kubectl:internal-dev
   variables:
-    APP_HOSTNAME: osgeodev.bgs.ac.uk/pygeoapi/
+    APP_HOSTNAME: osgeodev.bgs.ac.uk
   tags:
     - k8s
   script:
