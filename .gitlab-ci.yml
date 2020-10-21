@@ -38,8 +38,8 @@ build docker image:
     - docker build --file="Dockerfile" --cache-from "${INTERNAL_DOCKER_IMAGE}" -t "${INTERNAL_DOCKER_IMAGE}" .
     # Push to internal docker registry
     - docker push "${INTERNAL_DOCKER_IMAGE}"
-    # If production-dmz branch, login and push to DMZ docker registry
-    - if [ "${CI_COMMIT_REF_SLUG}" != "production-dmz" ]; then exit 0; fi
+    # If staging-dmz branch, login and push to DMZ docker registry
+    - if [ "${CI_COMMIT_REF_SLUG}" != "staging-dmz" ]; then exit 0; fi
     - docker login -u "${DMZ_REGISTRY_USER}" -p "${DMZ_REGISTRY_PASSWORD}" "${DMZ_REGISTRY}"
     - docker tag "${INTERNAL_DOCKER_IMAGE}" "${DMZ_DOCKER_IMAGE}"
     - docker push "${DMZ_DOCKER_IMAGE}"
@@ -50,7 +50,7 @@ deploy to kube dev:
   stage: deploy
   image: ${CI_REGISTRY}/devops/k8s-kubectl:internal-dev
   variables:
-    APP_HOSTNAME: ${KUBE_NAMESPACE}.kube-idev.bgslcdevops.test
+    APP_HOSTNAME: ${KUBE_NAMESPACE}.kube-idev.bgslcdevops.test/pygeoapi/
   tags:
     - k8s
   script:
@@ -63,11 +63,11 @@ deploy to kube dev:
     paths:
       - environment_url.txt
   rules:
-    - if: '$CI_COMMIT_BRANCH != "production-dmz"'
+    - if: '$CI_COMMIT_BRANCH != "staging-dmz"'
   environment:
     name: $CI_COMMIT_REF_SLUG
     auto_stop_in: 1 week
-    url: http://$KUBE_NAMESPACE.kube-idev.bgslcdevops.test
+    url: http://$APP_HOSTNAME
     on_stop: remove from kube dev
 
 # Remove from Internal Kube Cluster - Manual Job
@@ -81,7 +81,7 @@ remove from kube dev:
   script:
   - kubectl delete ns ${KUBE_NAMESPACE}
   rules:
-    - if: '$CI_COMMIT_BRANCH != "production-dmz"'
+    - if: '$CI_COMMIT_BRANCH != "staging-dmz"'
       when: manual
       allow_failure: true
   environment:
@@ -93,7 +93,7 @@ deploy to kube staging dmz:
   stage: deploy
   image: ${CI_REGISTRY}/devops/k8s-kubectl:internal-dev
   variables:
-    APP_HOSTNAME: osgeodev.bgs.ac.uk
+    APP_HOSTNAME: osgeodev.bgs.ac.uk/pygeoapi/
   tags:
     - k8s
   script:
