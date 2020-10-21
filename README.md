@@ -2,7 +2,7 @@
 
 Test deployment of [PyGeoAPI](https://pygeoapi.io/)
 
-http://pygeoapi-1430-master.kube-idev.bgslcdevops.test 
+http://pygeoapi-1430-master.kube-idev.bgslcdevops.test/pygeoapi/ 
 
 # Docker Deployment Template
 

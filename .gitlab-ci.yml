@@ -98,10 +98,7 @@ deploy to kube staging dmz:
     - k8s
   script:
   - export DOCKER_SECRET=${DMZ_DOCKER_SECRET}
-  - export DEPLOY_IMAGE=${DMZ_DOCKER_IMAGE_GEONETWORK}
-  - export DOCKER_IMAGE_POSTGRES=${DMZ_DOCKER_IMAGE_POSTGRES}
-  - export HTTP_PROXY="http://192.171.141.62:8080"
-  - export HTTPS_PROXY="http://192.171.141.62:8080"
+  - export DEPLOY_IMAGE=${DMZ_DOCKER_IMAGE}
   - /bin/bash kube-deploy/deploy.sh
   - echo "Deployment Available Here - https://${APP_HOSTNAME}"
   - "echo For testing - curl --header \"Host: ${APP_HOSTNAME}\" https://192.171.157.24 -vvv -k"

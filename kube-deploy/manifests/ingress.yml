@@ -14,7 +14,7 @@ spec:
     - host: ${APP_HOSTNAME}
       http:
         paths:
-        - path: /
+        - path: /pygeoapi/
           backend:
             serviceName: ${KUBE_NAMESPACE}
             servicePort: 80
