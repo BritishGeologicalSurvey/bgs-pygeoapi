@@ -186,29 +186,4 @@ resources:
               data: tests/data/superficial_geology.geojson
               id_field: fid     
 
-    BGSDykes625kSubset:
-        type: collection
-        title: BGS Geology 625k Dykes ES Subset
-        description: Generalised digital geological map data based on BGS's published poster maps of the UK (North and South). Bedrock related themes created by generalisation of 1:50 000 data to make the 2007 fifth edition Bedrock Geology map. 
-        keywords:
-            - geology
-            - britain
-        links:
-            - type: text/html
-              rel: canonical
-              title: information
-              href: https://www.bgs.ac.uk/products/digitalmaps/DiGMapGB_625.html
-              hreflang: en-UK
-        extents:
-            spatial:
-                bbox: [-9,49.5,3,61]
-                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-            temporal:
-                begin: 2011-11-11
-                end: null  # or empty (either means open ended)
-        providers:
-            - type: feature
-              name: Elasticsearch
-              data: http://hwlelastic01.ad.nerc.ac.uk:9200/dykes_subset
-              id_field: geonameid
               
