@@ -31,7 +31,7 @@ server:
     bind:
         host: 0.0.0.0
         port: 80
-    url: http://pygeoapi-1430-master.kube-idev.bgslcdevops.test/pygeoapi/
+    url: https://osgeodev.bgs.ac.uk/pygeoapi/
     mimetype: application/json; charset=UTF-8
     encoding: utf-8
     language: en-US
