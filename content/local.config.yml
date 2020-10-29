@@ -89,9 +89,9 @@ resources:
         keywords:
             - geology
             - britain
-        context:
-            - schema: http://data.bgs.ac.uk/ref/Lexicon
-              LEX: schema:notation
+#        context:
+#            - schema: http://data.bgs.ac.uk/ref/Lexicon
+#              LEX: schema:notation
         links:
             - type: text/html
               rel: canonical
