@@ -49,8 +49,8 @@ logging:
 
 metadata:
     identification:
-        title: BGS Instance of pygeoapi
-        description: pygeoapi provides an API to geospatial data
+        title: BGS Demo Instance of pygeoapi
+        description: pygeoapi provides an API endpoint for BGS geospatial data. Code for this implementation can be found at https://github.com/BritishGeologicalSurvey/bgs-pygeoapi 
         keywords:
             - geospatial
             - data
@@ -85,10 +85,13 @@ resources:
     BGSGeology625kBedrock:
         type: collection
         title: BGS Geology 625k Bedrock
-        description: Generalised digital geological map data based on BGS's published poster maps of the UK (North and South). Bedrock related themes created by generalisation of 1:50 000 data to make the 2007 fifth edition Bedrock Geology map. 
+        description: Bedrock features of the generalised digital geological map data based on BGS's published poster maps of the UK (North and South). Bedrock related themes created by generalisation of 1:50 000 data to make the 2007 fifth edition Bedrock Geology map. 
         keywords:
             - geology
             - britain
+        context:
+            - schema: http://data.bgs.ac.uk/ref/Lexicon
+              LEX: schema:notation
         links:
             - type: text/html
               rel: canonical
@@ -111,7 +114,7 @@ resources:
     BGSGeology625kDykes:
         type: collection
         title: BGS Geology 625k Dykes
-        description: Generalised digital geological map data based on BGS's published poster maps of the UK (North and South). Bedrock related themes created by generalisation of 1:50 000 data to make the 2007 fifth edition Bedrock Geology map. 
+        description: Dyke features of the generalised digital geological map data based on BGS's published poster maps of the UK (North and South). Bedrock related themes created by generalisation of 1:50 000 data to make the 2007 fifth edition Bedrock Geology map. 
         keywords:
             - geology
             - britain
@@ -137,7 +140,7 @@ resources:
     BGSGeology625kFaults:
         type: collection
         title: BGS Geology 625k Faults
-        description: Generalised digital geological map data based on BGS's published poster maps of the UK (North and South). Bedrock related themes created by generalisation of 1:50 000 data to make the 2007 fifth edition Bedrock Geology map. 
+        description: Fault features of the generalised digital geological map data based on BGS's published poster maps of the UK (North and South). Bedrock related themes created by generalisation of 1:50 000 data to make the 2007 fifth edition Bedrock Geology map. 
         keywords:
             - geology
             - britain
@@ -163,7 +166,7 @@ resources:
     BGSGeology625kSuperficial:
         type: collection
         title: BGS Geology 625k Superficial
-        description: Generalised digital geological map data based on BGS's published poster maps of the UK (North and South). Bedrock related themes created by generalisation of 1:50 000 data to make the 2007 fifth edition Bedrock Geology map. 
+        description: Superficial features of the generalised digital geological map data based on BGS's published poster maps of the UK (North and South). Bedrock related themes created by generalisation of 1:50 000 data to make the 2007 fifth edition Bedrock Geology map. 
         keywords:
             - geology
             - britain
