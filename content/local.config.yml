@@ -50,7 +50,7 @@ logging:
 metadata:
     identification:
         title: BGS Demo Instance of pygeoapi
-        description: pygeoapi provides an API endpoint for BGS geospatial data. Code for this implementation can be found at https://github.com/BritishGeologicalSurvey/bgs-pygeoapi 
+        description: pygeoapi provides an API endpoint for BGS Open Geoscience geospatial data. Code for this implementation can be found at https://github.com/BritishGeologicalSurvey/bgs-pygeoapi 
         keywords:
             - geospatial
             - data
