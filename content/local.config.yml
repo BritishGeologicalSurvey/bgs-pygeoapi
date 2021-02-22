@@ -38,6 +38,9 @@ server:
     # cors: true
     pretty_print: true
     limit: 10
+    templates:
+        path: /pygeoapi/pygeoapi-skin-dashboard/templates
+        static: /pygeoapi/pygeoapi-skin-dashboard/static # css/js/img
     map:
         url: https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png
         attribution: '<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia maps</a> | Map data &copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
