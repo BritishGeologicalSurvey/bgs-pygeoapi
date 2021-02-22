@@ -1,13 +1,25 @@
+# GitLab CI Settings Varaibles - these are required for staging/prod environments:
+# DMZ_DOCKER_SECRET
+# DMZ_REGISTRY_USER
+# DMZ_REGISTRY_PASSWORD
+# DMZ_REGISTRY
+# PRODUCTION_INTERNAL_APP_HOSTNAME
+# PRODUCTION_DMZ_APP_HOSTNAME: geo6catalogue.bgs.ac.uk
+# STAGING_DMZ_APP_HOSTNAME: geo6catalogue-staging.bgs.ac.uk
+  
+
 # Main Application Variables
 variables:
+  STAGING_DMZ_APP_HOSTNAME: osgeodev.bgs.ac.uk
   INTERNAL_DOCKER_IMAGE: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}
   DMZ_DOCKER_IMAGE: ${DMZ_REGISTRY}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_SLUG}
+  CONTAINER_PORT: 80
 
 # CI Stages
 stages:
   - build
-  - test
   - deploy
+  - test
   - dast
   - performance
 
@@ -38,11 +50,13 @@ build docker image:
     - docker build --file="Dockerfile" --cache-from "${INTERNAL_DOCKER_IMAGE}" -t "${INTERNAL_DOCKER_IMAGE}" .
     # Push to internal docker registry
     - docker push "${INTERNAL_DOCKER_IMAGE}"
-    # If staging-dmz branch, login and push to DMZ docker registry
-    - if [ "${CI_COMMIT_REF_SLUG}" != "staging-dmz" ]; then exit 0; fi
-    - docker login -u "${DMZ_REGISTRY_USER}" -p "${DMZ_REGISTRY_PASSWORD}" "${DMZ_REGISTRY}"
-    - docker tag "${INTERNAL_DOCKER_IMAGE}" "${DMZ_DOCKER_IMAGE}"
-    - docker push "${DMZ_DOCKER_IMAGE}"
+    # If production-dmz or staging-dmz branch, login and push to DMZ docker registry
+    - |
+        if [ "${CI_COMMIT_REF_SLUG}" == "production-dmz" ] || [ "${CI_COMMIT_REF_SLUG}" == "staging-dmz" ]; then
+          docker login -u "${DMZ_REGISTRY_USER}" -p "${DMZ_REGISTRY_PASSWORD}" "${DMZ_REGISTRY}"
+          docker tag "${INTERNAL_DOCKER_IMAGE}" "${DMZ_DOCKER_IMAGE}"
+          docker push "${DMZ_DOCKER_IMAGE}"
+        fi
 
 # Deploy to Internal Kube Cluster Automatically on all branches/tags
 # automatically removed after a week or when branch deleted
@@ -55,6 +69,7 @@ deploy to kube dev:
     - k8s
   script:
   - export DEPLOY_IMAGE=${INTERNAL_DOCKER_IMAGE}
+  - export JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom -Djava.awt.headless=true -server -Xms512m -Xmx2024m -XX:NewSize=512m -XX:MaxNewSize=1024m -XX:+UseConcMarkSweepGC"
   - /bin/bash kube-deploy/deploy.sh
   - echo "Deployment Available Here - http://${APP_HOSTNAME}"
   - echo http://${APP_HOSTNAME} > environment_url.txt
@@ -63,14 +78,21 @@ deploy to kube dev:
     paths:
       - environment_url.txt
   rules:
-    - if: '$CI_COMMIT_BRANCH != "staging-dmz"'
+    # Don't deploy to Dev if its a deploying to another cluster
+    - if: '$CI_COMMIT_BRANCH == "staging-dmz"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "production-dmz"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "production-internal"'
+      when: never
+    - when: always
   environment:
     name: $CI_COMMIT_REF_SLUG
-    auto_stop_in: 1 week
-    url: http://$APP_HOSTNAME
+    auto_stop_in: 1 month
+    url: http://$KUBE_NAMESPACE.kube-idev.bgslcdevops.test
     on_stop: remove from kube dev
 
-# Remove from Internal Kube Cluster - Manual Job
+# Remove from Internal Kube Cluster - Auto/Manual Job
 remove from kube dev:
   stage: deploy
   image: ${CI_REGISTRY}/devops/k8s-kubectl:internal-dev
@@ -81,31 +103,97 @@ remove from kube dev:
   script:
   - kubectl delete ns ${KUBE_NAMESPACE}
   rules:
-    - if: '$CI_COMMIT_BRANCH != "staging-dmz"'
-      when: manual
+    # Don't stop dev if its a deploying to another cluster
+    - if: '$CI_COMMIT_BRANCH == "staging-dmz"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "production-dmz"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "production-internal"'
+      when: never
+    - when: manual
       allow_failure: true
   environment:
     name: $CI_COMMIT_REF_SLUG
     action: stop
 
+# Deploy to Internal Kube Production Cluster Automatically when production-internal
+# This requires access to the internal production kube cluster credentials in GitLab
+deploy to kube prod internal:
+  stage: deploy
+  image: ${CI_REGISTRY}/devops/k8s-kubectl:internal-dev
+  variables:
+    APP_HOSTNAME: ${PRODUCTION_INTERNAL_APP_HOSTNAME}
+  tags:
+    - k8s
+  script:
+  - export DEPLOY_IMAGE=${INTERNAL_DOCKER_IMAGE}
+  - export JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom -Djava.awt.headless=true -server -Xms512m -Xmx2024m -XX:NewSize=512m -XX:MaxNewSize=1024m -XX:+UseConcMarkSweepGC"
+  - /bin/bash kube-deploy/deploy.sh
+  - echo "Deployment Available Here - http://${APP_HOSTNAME}"
+  - echo http://${APP_HOSTNAME} > environment_url.txt
+  # Save URL in environment_url.txt for DAST/Peformance tests
+  artifacts:
+    paths:
+      - environment_url.txt
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "production-internal"'
+  environment:
+    name: $CI_COMMIT_REF_SLUG
+    url: $APP_HOSTNAME
+
 # Deploy to Staging DMZ Kube Cluster Automatically when staging-dmz branch
+# This requires access to the staging kube cluster credentials in GitLab
 deploy to kube staging dmz:
   stage: deploy
   image: ${CI_REGISTRY}/devops/k8s-kubectl:internal-dev
   variables:
-    APP_HOSTNAME: osgeodev.bgs.ac.uk
+    APP_HOSTNAME: ${STAGING_DMZ_APP_HOSTNAME}
   tags:
     - k8s
   script:
   - export DOCKER_SECRET=${DMZ_DOCKER_SECRET}
   - export DEPLOY_IMAGE=${DMZ_DOCKER_IMAGE}
+  - export MY_HTTP_PROXY=http://${PROXY_IP}:8080  
+  - export JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom -Djava.awt.headless=true -server -Xms512m -Xmx2024m -XX:NewSize=512m -XX:MaxNewSize=1024m -XX:+UseConcMarkSweepGC -Dhttps.proxyHost=${PROXY_IP} -Dhttps.proxyPort=8080"
   - /bin/bash kube-deploy/deploy.sh
   - echo "Deployment Available Here - https://${APP_HOSTNAME}"
   - "echo For testing - curl --header \"Host: ${APP_HOSTNAME}\" https://192.171.157.24 -vvv -k"
+  - echo http://${APP_HOSTNAME} > environment_url.txt
+  # Save URL in environment_url.txt for DAST/Peformance tests
+  artifacts:
+    paths:
+      - environment_url.txt
   rules:
     - if: '$CI_COMMIT_BRANCH == "staging-dmz"'
   environment:
     name: staging-dmz
+    url: https://$APP_HOSTNAME
+    
+# Deploy to Production DMZ Kube Cluster Automatically when production-dmz branch
+deploy to kube prod dmz:
+  stage: deploy
+  image: ${CI_REGISTRY}/devops/k8s-kubectl:internal-dev
+  variables:
+    APP_HOSTNAME: ${PRODUCTION_DMZ_APP_HOSTNAME}
+  tags:
+    - k8s
+  script:
+  - export DOCKER_SECRET=${DMZ_DOCKER_SECRET}
+  - export DEPLOY_IMAGE=${DMZ_DOCKER_IMAGE}
+  - export MY_HTTP_PROXY=http://${PROXY_IP}:8080  
+  - export JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom -Djava.awt.headless=true -server -Xms512m -Xmx2024m -XX:NewSize=512m -XX:MaxNewSize=1024m -XX:+UseConcMarkSweepGC -Dhttps.proxyHost=${PROXY_IP} -Dhttps.proxyPort=8080"
+  - /bin/bash kube-deploy/deploy.sh
+  - echo "Deployment Available Here - https://${APP_HOSTNAME}"
+  - "echo For testing - curl --header \"Host: ${APP_HOSTNAME}\" https://192.171.157.15 -vvv -k"
+  - echo http://${APP_HOSTNAME} > environment_url.txt
+  # Save URL in environment_url.txt for DAST/Peformance tests
+  artifacts:
+    paths:
+      - environment_url.txt
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "production-dmz"'
+  environment:
+    name: production-dmz
     url: https://$APP_HOSTNAME
 
 # GitLab Templates:
@@ -124,8 +212,6 @@ dast:
     - k8s
   artifacts:
     paths: [gl-dast-report.json]
-  rules:
-    - if: '$CI_COMMIT_BRANCH != "staging-dmz"'
 container_scanning:
   tags:
     - k8s
@@ -141,8 +227,6 @@ secret_detection:
 performance:
   tags:
     - k8s
-  rules:
-    - if: '$CI_COMMIT_BRANCH != "staging-dmz"'
 
 #code_quality:
 #  tags:
