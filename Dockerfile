@@ -6,7 +6,7 @@ RUN apt-get install -y git
 
 ## BGS Template
 
-RUN git clone https://github.com/GeoCat/pygeoapi-skin-dashboard /pygeoapi/pygeoapi-skin-dashboard/
+RUN git clone https://github.com/BritishGeologicalSurvey/pygeoapi-skin-dashboard /pygeoapi/pygeoapi-skin-dashboard/
 
 ## BGS Config and Local Files
 
