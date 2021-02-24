@@ -112,7 +112,7 @@ resources:
             - type: feature
               name: GeoJSON
               data: /pygeoapi/bgsdata/bedrock_geology.geojson
-              id_field: fid    
+              id_field: fid
 
     BGSGeology625kDykes:
         type: collection
@@ -138,7 +138,7 @@ resources:
             - type: feature
               name: GeoJSON
               data: /pygeoapi/bgsdata/dykes_geology.geojson
-              id_field: fid   
+              id_field: fid
 
     BGSGeology625kFaults:
         type: collection
@@ -164,7 +164,7 @@ resources:
             - type: feature
               name: GeoJSON
               data: /pygeoapi/bgsdata/fault_geology.geojson
-              id_field: fid    
+              id_field: fid
 
     BGSGeology625kSuperficial:
         type: collection
@@ -190,4 +190,4 @@ resources:
             - type: feature
               name: GeoJSON
               data: /pygeoapi/bgsdata/superficial_geology.geojson
-              id_field: fid     
+              id_field: fid
