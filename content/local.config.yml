@@ -42,8 +42,8 @@ server:
         path: /pygeoapi/pygeoapi-skin-dashboard/templates
         static: /pygeoapi/pygeoapi-skin-dashboard/static # css/js/img
     map:
-        url: https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png
-        attribution: '<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia maps</a> | Map data &copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+        url: https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}.png
+        attribution: '<a href="https://www.esri.com/en-us/home">ESRI</a> | Map data &copy; <a href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer">ArcGIS</a>'
     # ogc_schemas_location: /opt/schemas.opengis.net
 
 logging:
