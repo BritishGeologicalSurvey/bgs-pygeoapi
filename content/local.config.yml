@@ -191,3 +191,42 @@ resources:
               name: GeoJSON
               data: /pygeoapi/bgsdata/superficial_geology.geojson
               id_field: fid
+
+    bgsgeology625kwfsbedrock:
+        type: collection
+        title: BGS Geology 625k WFS Bedrock Lithology
+        description: The 1:625k DiGMap data covering the whole of the United Kingdom is available in this OGC WFS service for all uses - including commercial use subject to the conditions in the Access Constraints section. It is being served as a contribution to the OneGeology initiative (www.onegeology.org). The contents of this WFS service are not intended for direct use but are transformed by a mediator layer into separate WFS services which provide data in GeoSciML. This process is described in Chapter 2 of the OneGeology WFS Cookbook available at www.onegeology.org. Links to the transformed WFS services can be found at http://ogc.bgs.ac.uk/digmap625k_gsml31_gp/wfs?service=WFS&version=2.0.0&request=GetFeature&count=10&typename=gsml:MappedFeature&. For information about more of the British Geological Survey's maps that are available digitally please visit http://www.bgs.ac.uk/products/digitalmaps/digmapgb.html 
+        keywords:
+            - geology
+            - britain
+            - GeoSciML
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: http://www.bgs.ac.uk/products/digitalmaps/digmapgb.html
+              hreflang: en-UK
+        extents:
+            spatial:
+                bbox: [-9,49.5,3,61]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2015-11-11
+                end: null  # or empty (either means open ended)  
+        providers:
+            - type: feature
+              name: OGR
+              data:
+                  source_type: WFS
+                  source: WFS:http://ogc.bgs.ac.uk/cgi-bin/BGS_Bedrock_and_Superficial_Geology/ows?
+                  source_options:
+                      VERSION: 2.0.0
+                      OGR_WFS_PAGING_ALLOWED: YES
+                      OGR_WFS_LOAD_MULTIPLE_LAYER_DEFN: NO
+                  gdal_ogr_options:
+                      GDAL_CACHEMAX: 64
+                  #    GDAL_HTTP_PROXY: 
+                  #    GDAL_PROXY_AUTH: 
+                      CPL_DEBUG: NO
+              id_field: gml_id
+              layer: ms:GBR_BGS_625k_BLT  
