@@ -231,7 +231,7 @@ resources:
               id_field: gml_id
               layer: ms:GBR_BGS_625k_BLT  
 
-    bgsgeology625kwfsbedrock:
+    bgsmineralstatistics:
         type: collection
         title: BGS World Mineral Statistics WFS
         description: The British Geological Survey (BGS) and its predecessor organisations have compiled production and trade statistics on a wide range of mineral commodities since 1913. As part of our ongoing work to make these data more accessible we have created this API. For more information please go to - https://www2.bgs.ac.uk/mineralsuk/statistics/worldStatistics.html
