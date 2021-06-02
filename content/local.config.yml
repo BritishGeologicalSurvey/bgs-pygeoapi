@@ -30,7 +30,7 @@
 server:
     bind:
         host: 0.0.0.0
-        port: ${CONTAINER_PORT}
+        port: 80
     url: https://osgeodev.bgs.ac.uk/pygeoapi/
     mimetype: application/json; charset=UTF-8
     encoding: utf-8
