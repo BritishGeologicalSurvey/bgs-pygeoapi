@@ -29,4 +29,4 @@ spec:
         image: "${DEPLOY_IMAGE}"
         imagePullPolicy: Always
         ports:
-        - containerPort: 80
+        - containerPort: ${CONTAINER_PORT}

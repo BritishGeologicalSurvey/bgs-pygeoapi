@@ -17,4 +17,4 @@ spec:
         - path: /pygeoapi/
           backend:
             serviceName: ${KUBE_NAMESPACE}
-            servicePort: 80
+            servicePort: ${CONTAINER_PORT}
