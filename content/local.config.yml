@@ -238,4 +238,4 @@ resources:
     ags-validator:
         type: process
         processor:
-            name: ags-validator
+            name: AGSValidator
