@@ -235,7 +235,7 @@ resources:
               id_field: gml_id
               layer: ms:GBR_BGS_625k_BLT  
 
-    raster-drill:
-        type: process
-        processor:
-            name: msc_pygeoapi.process.cccs.raster_drill.RasterDrillProcessor
+#    raster-drill:
+#        type: process
+#        processor:
+#            name: msc_pygeoapi.process.cccs.raster_drill.RasterDrillProcessor

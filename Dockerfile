@@ -11,7 +11,7 @@ RUN apt-get install -y git
 ## BGS Config and Local Files
 
 COPY ./content/local.config.yml /pygeoapi/local.config.yml
-COPY ./content/process /pygeoapi/
+# COPY ./content/process /pygeoapi/
 # COPY ./content/plugin.py /pygeoapi/plugin.py
 
 ## BGS Source Data Files
