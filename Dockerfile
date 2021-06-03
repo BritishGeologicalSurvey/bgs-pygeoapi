@@ -12,7 +12,7 @@ RUN apt-get install -y git
 
 COPY ./content/local.config.yml /pygeoapi/local.config.yml
 COPY ./content/process /pygeoapi/
-COPY ./content/plugin.py /pygeoapi/plugin.py
+# COPY ./content/plugin.py /pygeoapi/plugin.py
 
 ## BGS Source Data Files
 
@@ -21,8 +21,6 @@ COPY ./content/data/dykes_geology.geojson /pygeoapi/bgsdata/dykes_geology.geojso
 COPY ./content/data/fault_geology.geojson /pygeoapi/bgsdata/fault_geology.geojson
 COPY ./content/data/superficial_geology.geojson /pygeoapi/bgsdata/superficial_geology.geojson 
 COPY ./content/data/625k_V5_Geology_All.gpkg /pygeoapi/bgsdata/625k_V5_Geology_All.gpkg 
-
-
 
 ENV SCRIPT_NAME='/pygeoapi/'
 
