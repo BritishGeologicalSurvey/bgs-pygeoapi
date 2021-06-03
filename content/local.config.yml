@@ -235,7 +235,7 @@ resources:
               id_field: gml_id
               layer: ms:GBR_BGS_625k_BLT  
 
-    ags-validator:
+    raster-drill:
         type: process
         processor:
-            name: AGSValidator
+            name: msc_pygeoapi.process.cccs.raster_drill.RasterDrillProcessor
