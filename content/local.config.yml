@@ -38,9 +38,9 @@ server:
     # cors: true
     pretty_print: true
     limit: 10
-    templates:
-        path: /pygeoapi/pygeoapi-skin-dashboard/templates
-        static: /pygeoapi/pygeoapi-skin-dashboard/static # css/js/img
+    #templates:
+    #    path: /pygeoapi/pygeoapi-skin-dashboard/templates
+    #    static: /pygeoapi/pygeoapi-skin-dashboard/static # css/js/img
     map:
         url: https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}.png
         attribution: '<a href="https://www.esri.com/en-us/home">ESRI</a> | Map data &copy; <a href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer">ArcGIS</a>'
@@ -113,6 +113,21 @@ resources:
               name: GeoJSON
               data: /pygeoapi/bgsdata/bedrock_geology.geojson
               id_field: fid
+            - type: tile
+              name: MVT
+              data: /pygeoapi/bgsdata/tiles/bedrock-geology  # local directory tree
+            # data: https://example.org/ne_110m_lakes/{z}/{x}/{y}.pbf
+              options:
+                  metadata_format: raw # default | tilejson
+                  # bounds: [[-9,49.5],[3,61]]
+                  zoom:
+                      min: 0
+                      max: 16
+                  schemes:
+                      - WorldCRS84Quad
+              format:
+                    name: pbf
+                    mimetype: application/vnd.mapbox-vector-tile              
 
     BGSGeology625kDykes:
         type: collection
@@ -139,6 +154,21 @@ resources:
               name: GeoJSON
               data: /pygeoapi/bgsdata/dykes_geology.geojson
               id_field: fid
+            - type: tile
+              name: MVT
+              data: /pygeoapi/bgsdata/tiles/dykes-geology  # local directory tree
+            # data: https://example.org/ne_110m_lakes/{z}/{x}/{y}.pbf
+              options:
+                  metadata_format: raw # default | tilejson
+                  # bounds: [[-9,49.5],[3,61]]
+                  zoom:
+                      min: 0
+                      max: 16
+                  schemes:
+                      - WorldCRS84Quad
+              format:
+                    name: pbf
+                    mimetype: application/vnd.mapbox-vector-tile              
 
     BGSGeology625kFaults:
         type: collection
@@ -206,6 +236,21 @@ resources:
               name: GeoJSON
               data: /pygeoapi/bgsdata/superficial_geology.geojson
               id_field: fid
+             - type: tile
+              name: MVT
+              data: /pygeoapi/bgsdata/tiles/superficial-geology  # local directory tree
+            # data: https://example.org/ne_110m_lakes/{z}/{x}/{y}.pbf
+              options:
+                  metadata_format: raw # default | tilejson
+                  # bounds: [[-9,49.5],[3,61]]
+                  zoom:
+                      min: 0
+                      max: 16
+                  schemes:
+                      - WorldCRS84Quad
+              format:
+                    name: pbf
+                    mimetype: application/vnd.mapbox-vector-tile             
 
     bgsgeology625kwfsbedrock:
         type: collection
