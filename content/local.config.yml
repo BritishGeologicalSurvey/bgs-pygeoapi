@@ -173,8 +173,8 @@ resources:
                   metadata_format: raw # default | tilejson
                   bounds: [[-9,49.5],[3,61]]
                   zoom:
-                      min: 3
-                      max: 5
+                      min: 0
+                      max: 16
                   schemes:
                       - WorldCRS84Quad
                format:
