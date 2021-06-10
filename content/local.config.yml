@@ -165,6 +165,20 @@ resources:
               name: GeoJSON
               data: /pygeoapi/bgsdata/fault_geology.geojson
               id_field: fid
+            - type: tile
+              name: MVT
+              data: /pygeoapi/bgsdata/fault_geology.mbtiles  # local directory tree
+            # data: https://example.org/ne_110m_lakes/{z}/{x}/{y}.pbf
+              options:
+                  metadata_format: raw # default | tilejson
+                  zoom:
+                      min: 3
+                      max: 5
+                  schemes:
+                      - WorldCRS84Quad
+               format:
+                    name: pbf
+                    mimetype: application/vnd.mapbox-vector-tile
 
     BGSGeology625kSuperficial:
         type: collection
