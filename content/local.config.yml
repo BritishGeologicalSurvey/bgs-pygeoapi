@@ -177,7 +177,7 @@ resources:
                       max: 16
                   schemes:
                       - WorldCRS84Quad
-               format:
+              format:
                     name: pbf
                     mimetype: application/vnd.mapbox-vector-tile
 
