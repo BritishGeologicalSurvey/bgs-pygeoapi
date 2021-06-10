@@ -167,7 +167,7 @@ resources:
               id_field: fid
             - type: tile
               name: MVT
-              data: /pygeoapi/bgsdata/fault_geology.mbtiles  # local directory tree
+              data: /pygeoapi/bgsdata/fault_geology  # local directory tree
             # data: https://example.org/ne_110m_lakes/{z}/{x}/{y}.pbf
               options:
                   metadata_format: raw # default | tilejson
