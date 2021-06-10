@@ -122,7 +122,7 @@ resources:
                   # bounds: [[-9,49.5],[3,61]]
                   zoom:
                       min: 0
-                      max: 16
+                      max: 8
                   schemes:
                       - WorldCRS84Quad
               format:
@@ -163,7 +163,7 @@ resources:
                   # bounds: [[-9,49.5],[3,61]]
                   zoom:
                       min: 0
-                      max: 16
+                      max: 10
                   schemes:
                       - WorldCRS84Quad
               format:
@@ -204,7 +204,7 @@ resources:
                   # bounds: [[-9,49.5],[3,61]]
                   zoom:
                       min: 0
-                      max: 16
+                      max: 5
                   schemes:
                       - WorldCRS84Quad
               format:
@@ -245,7 +245,7 @@ resources:
                   # bounds: [[-9,49.5],[3,61]]
                   zoom:
                       min: 0
-                      max: 16
+                      max: 7
                   schemes:
                       - WorldCRS84Quad
               format:
