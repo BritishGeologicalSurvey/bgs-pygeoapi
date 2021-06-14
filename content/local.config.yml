@@ -111,11 +111,11 @@ resources:
         providers:
             - type: feature
               name: GeoJSON
-              data: /pygeoapi/bgsdata/bedrock_geology.geojson
+              data: pygeoapi/bgsdata/bedrock_geology.geojson
               id_field: fid
             - type: tile
               name: MVT
-              data: /pygeoapi/bgsdata/tiles/bedrock-geology  # local directory tree
+              data: pygeoapi/bgsdata/tiles/bedrock-geology  # local directory tree
             # data: https://example.org/ne_110m_lakes/{z}/{x}/{y}.pbf
               options:
                   metadata_format: raw # default | tilejson
@@ -152,11 +152,11 @@ resources:
         providers:
             - type: feature
               name: GeoJSON
-              data: /pygeoapi/bgsdata/dykes_geology.geojson
+              data: pygeoapi/bgsdata/dykes_geology.geojson
               id_field: fid
             - type: tile
               name: MVT
-              data: /pygeoapi/bgsdata/tiles/dykes-geology  # local directory tree
+              data: pygeoapi/bgsdata/tiles/dykes-geology  # local directory tree
             # data: https://example.org/ne_110m_lakes/{z}/{x}/{y}.pbf
               options:
                   metadata_format: raw # default | tilejson
@@ -193,11 +193,11 @@ resources:
         providers:
             - type: feature
               name: GeoJSON
-              data: /pygeoapi/bgsdata/fault_geology.geojson
+              data: pygeoapi/bgsdata/fault_geology.geojson
               id_field: fid
             - type: tile
               name: MVT
-              data: /pygeoapi/bgsdata/tiles/fault-geology  # local directory tree
+              data: pygeoapi/bgsdata/tiles/fault-geology  # local directory tree
             # data: https://example.org/ne_110m_lakes/{z}/{x}/{y}.pbf
               options:
                   metadata_format: raw # default | tilejson
@@ -234,11 +234,11 @@ resources:
         providers:
             - type: feature
               name: GeoJSON
-              data: /pygeoapi/bgsdata/superficial_geology.geojson
+              data: pygeoapi/bgsdata/superficial_geology.geojson
               id_field: fid
             - type: tile
               name: MVT
-              data: /pygeoapi/bgsdata/tiles/superficial-geology  # local directory tree
+              data: pygeoapi/bgsdata/tiles/superficial-geology  # local directory tree
             # data: https://example.org/ne_110m_lakes/{z}/{x}/{y}.pbf
               options:
                   metadata_format: raw # default | tilejson
