@@ -19,6 +19,7 @@ COPY ./content/dykes_geology.geojson /pygeoapi/bgsdata/dykes_geology.geojson
 COPY ./content/fault_geology.geojson /pygeoapi/bgsdata/fault_geology.geojson
 COPY ./content/superficial_geology.geojson /pygeoapi/bgsdata/superficial_geology.geojson 
 COPY ./content/625k_V5_Geology_All.gpkg /pygeoapi/bgsdata/625k_V5_Geology_All.gpkg 
+COPY ./content/tree-preservation-order-trunk.geojson /pygeoapi/bgsdata/tree-preservation-order-trunk.geojson
 
 ## Tiles
 ADD ./content/fault-geology /pygeoapi/bgsdata/tiles/fault-geology/
