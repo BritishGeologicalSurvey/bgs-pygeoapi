@@ -252,7 +252,7 @@ resources:
                     name: pbf
                     mimetype: application/vnd.mapbox-vector-tile    
 
-bristoltpo:
+    bristoltpo:
         type: collection
         title: Bristol Tree Preservation Order
         description: Bristol Tree Preservation Order 
