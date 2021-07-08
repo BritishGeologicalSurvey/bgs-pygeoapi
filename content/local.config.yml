@@ -252,6 +252,39 @@ resources:
                     name: pbf
                     mimetype: application/vnd.mapbox-vector-tile    
 
+    sensorthings:
+        type: collection
+        title: sensorthings API
+        description: IOW Monitoring Locations
+        keywords:
+            - Test Gage
+        geojsonld: false
+        context:
+            - name: schema:name
+              description: schema:description
+              related: schema:geo
+              Region: schema:geoWithin
+              HY_WaterBody: schema:geoWithin
+        links:
+            - type: application/html
+              rel: canonical
+              title: data source
+              href: https://sta-demo.internetofwater.dev/
+              hreflang: en-US
+        extents:
+            spatial:
+                bbox: [-180,-90,180,90]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: null
+                end: null
+        providers:
+          - type: feature
+            name: Sensorthings 
+            entity: Things 
+            data: https://sensorthings-wq.brgm-rec.fr/FROST-Server/v1.0
+            id_field: '@iot.id'
+
     bristoltpo:
         type: collection
         title: Bristol Tree Preservation Order
