@@ -1,0 +1,51 @@
+#items-map, #collection-map {
+    width: 100%;
+    height: 400px;
+}
+
+/* cancel mini-css header>button uppercase */
+header button, header [type="button"], header .button, header [role="button"] {
+    text-transform: none;
+}
+
+table:not(.horizontal) {
+    max-height: none;
+}
+
+mark.successful {
+  background-color: green;
+}
+
+mark.accepted {
+  background-color: default;
+}
+
+mark.failed {
+  background-color: red;
+}
+
+mark.running {
+  background-color: orange;
+}
+/* LINES BELOW TO OVERRIDE HEADER CSS IN https://unpkg.com/mini.css@3.0.1/dist/mini-default.min.css */
+header{
+	height:auto;
+	}
+	
+header article.logo{
+	padding:0px;
+	}
+	
+header a:link{
+	color:#000000;
+	}
+	
+header li{
+	line-height:1;
+	}
+
+/* LINES BELOW TO OVERRIDE FOOTER CSS IN https://unpkg.com/mini.css@3.0.1/dist/mini-default.min.css */
+footer a:link{
+	color:#FFFFFF;
+  line-height:1;
+	}
