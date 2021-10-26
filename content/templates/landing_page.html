@@ -1,0 +1,88 @@
+{% extends "_base.html" %}
+{% block title %}{{ super() }} {% trans %}Home{% endtrans %} {% endblock %}
+{% block body %}
+
+<br/>
+<section id="collections">
+<div class="row">
+  <div>
+
+  <section id="identification">
+    <h1>{{ config['metadata']['identification']['title'] }}</h1>
+    <p>{{ config['metadata']['identification']['description'] }}</p>
+
+    <p>
+        {% for kw in config['metadata']['identification']['keywords'] %}
+          <mark class="tag">{{ kw }}</mark>
+        {% endfor %}
+    </p>
+
+    <div class="card large">
+      <div class="section">
+        {% if config['metadata']['identification']['terms_of_service'] %}
+          <div class="row">
+              <div class="col-sm-4">
+                {% trans %}Terms of service{% endtrans %}
+              </div>
+              <div class="col-sm-8">
+                {{ config['metadata']['identification']['terms_of_service'] | urlize() }}
+              </div>
+          </div>
+        {% endif %}
+        {% if config['metadata']['license']['url'] %}
+          <div class="row">
+              <div class="col-sm-4">
+                {% trans %}License{% endtrans %}
+              </div>
+              <div class="col-sm-8">
+                  <a href="{{ config['metadata']['license']['url'] }}">
+                    {{ config['metadata']['license']['name'] or config['metadata']['license']['url'] }}</a>
+              </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+  <section id="collections">
+    <h2>{% trans %}Collections{% endtrans %}</h2>
+    <p>
+      <a href="{{ config['server']['url'] }}/collections?f=html">{% trans %}View the collections in this service{% endtrans %}</a>
+    </p>
+  </section>
+ {% if data['stac'] %}
+  <section id="collections">
+    <h2>{% trans %}SpatioTemporal Assets{% endtrans %}</h2>
+    <p>
+      <a href="{{ config['server']['url'] }}/stac?f=html">{% trans %}View the SpatioTemporal Assets in this service{% endtrans %}</a>
+    </p>
+  </section>
+ {% endif %}
+ {% if data['processes'] %}
+  <section id="processes">
+      <h2>{% trans %}Processes{% endtrans %}</h2>
+      <p>
+        <a href="{{ config['server']['url'] }}/processes?f=html">{% trans %}View the processes in this service{% endtrans %}</a>
+      </p>
+  </section>
+ {% endif %}
+  <section id="openapi">
+      <h2>{% trans %}API Definition{% endtrans %}</h2>
+      <p>
+        {% trans %}Documentation{% endtrans %}: <a href="{{ config['server']['url'] }}/openapi?f=html">{% trans %}Swagger UI{% endtrans %}</a> <a href="{{ config['server']['url'] }}/openapi?f=html&ui=redoc">{% trans %}ReDoc{% endtrans %}</a>
+      </p>
+      <p>
+        <a href="{{ config['server']['url'] }}/openapi?f=json">{% trans %}OpenAPI Document{% endtrans %}</a>
+      </p>
+  </section>
+  <section id="conformance">
+      <h2>{% trans %}Conformance{% endtrans %}</h2>
+      <p>
+        <a href="{{ config['server']['url'] }}/conformance?f=html">{% trans %}View the conformance classes of this service{% endtrans %}</a>
+      </p>
+  </section>
+  </div>
+</div>
+
+</section>
+
+{% endblock %}

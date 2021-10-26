@@ -4,29 +4,24 @@ FROM geopython/pygeoapi:latest
 RUN apt-get update 
 RUN apt-get install -y git
 
-## BGS Template
-
-# RUN git clone https://github.com/BritishGeologicalSurvey/pygeoapi-skin-dashboard /pygeoapi/pygeoapi-skin-dashboard/
+# Upgrade jinja2
+RUN pip3 install Jinja2==3.0.2
 
 ## BGS Config 
 
 COPY ./content/local.config.yml /pygeoapi/local.config.yml
 
+## BGS Template
+
+COPY ./content/templates/ /pygeoapi/bgs-skin-dashboard/templates
+COPY ./content/static/ /pygeoapi/bgs-skin-dashboard/static
+
 ## Data Files 
 
-COPY ./content/bedrock_geology.geojson /pygeoapi/bgsdata/bedrock_geology.geojson
-COPY ./content/dykes_geology.geojson /pygeoapi/bgsdata/dykes_geology.geojson
-COPY ./content/fault_geology.geojson /pygeoapi/bgsdata/fault_geology.geojson
-COPY ./content/superficial_geology.geojson /pygeoapi/bgsdata/superficial_geology.geojson 
-COPY ./content/625k_V5_Geology_All.gpkg /pygeoapi/bgsdata/625k_V5_Geology_All.gpkg 
-COPY ./content/tree-preservation-order-trunk.geojson /pygeoapi/bgsdata/tree-preservation-order-trunk.geojson
+COPY ./content/bgsgeology625k.gpkg /pygeoapi/bgsdata/bgsgeology625k.gpkg
+COPY ./content/gb_50k_bedrock/ /pygeoapi/bgsdata/gb_50k_bedrock/
+COPY ./content/625k_bedrock/ /pygeoapi/tests/data/tiles/gb_625k_bedrock/
 
-## Tiles
-ADD ./content/fault-geology /pygeoapi/bgsdata/tiles/fault-geology/
-ADD ./content/dykes-geology /pygeoapi/bgsdata/tiles/dykes-geology/
-ADD ./content/bedrock-geology /pygeoapi/bgsdata/tiles/bedrock-geology/
-ADD ./content/superficial-geology /pygeoapi/bgsdata/tiles/superficial-geology/
-
-ENV SCRIPT_NAME='/pygeoapi/'
+ENV SCRIPT_NAME='/'
 
 EXPOSE 80

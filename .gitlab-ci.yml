@@ -3,14 +3,12 @@
 # DMZ_REGISTRY_USER
 # DMZ_REGISTRY_PASSWORD
 # DMZ_REGISTRY
-# PRODUCTION_INTERNAL_APP_HOSTNAME
-# PRODUCTION_DMZ_APP_HOSTNAME: 
-# STAGING_DMZ_APP_HOSTNAME: 
-  
 
 # Main Application Variables
 variables:
-  STAGING_DMZ_APP_HOSTNAME: osgeodev.bgs.ac.uk
+  STAGING_DMZ_APP_HOSTNAME: ogcapi-staging.bgs.ac.uk
+  PRODUCTION_INTERNAL_APP_HOSTNAME: ogcapi-internal.bgs.ac.uk
+  PRODUCTION_DMZ_APP_HOSTNAME: ogcapi.bgs.ac.uk
   INTERNAL_DOCKER_IMAGE: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}
   DMZ_DOCKER_IMAGE: ${DMZ_REGISTRY}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_SLUG}
   CONTAINER_PORT: 80
@@ -40,7 +38,7 @@ build docker image:
     DOCKER_TLS_CERTDIR: ""
   image: docker:19.03.8
   tags:
-    - k8s
+    - pull-always
   stage: build
   script:
     # Login to internal docker registry
@@ -68,8 +66,8 @@ deploy to kube dev:
   tags:
     - k8s
   script:
+  - echo "Checking cluster connection...." && kubectl get nodes --show-labels | grep environment=dev-internal
   - export DEPLOY_IMAGE=${INTERNAL_DOCKER_IMAGE}
-  - export JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom -Djava.awt.headless=true -server -Xms512m -Xmx2024m -XX:NewSize=512m -XX:MaxNewSize=1024m -XX:+UseConcMarkSweepGC"
   - /bin/bash kube-deploy/deploy.sh
   - echo "Deployment Available Here - http://${APP_HOSTNAME}"
   - echo http://${APP_HOSTNAME} > environment_url.txt
@@ -126,8 +124,8 @@ deploy to kube prod internal:
   tags:
     - k8s
   script:
+  - echo "Checking cluster connection...." && kubectl get nodes --show-labels | grep environment=production-internal
   - export DEPLOY_IMAGE=${INTERNAL_DOCKER_IMAGE}
-  - export JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom -Djava.awt.headless=true -server -Xms512m -Xmx2024m -XX:NewSize=512m -XX:MaxNewSize=1024m -XX:+UseConcMarkSweepGC"
   - /bin/bash kube-deploy/deploy.sh
   - echo "Deployment Available Here - http://${APP_HOSTNAME}"
   - echo http://${APP_HOSTNAME} > environment_url.txt
@@ -151,14 +149,13 @@ deploy to kube staging dmz:
   tags:
     - k8s
   script:
+  - echo "Checking cluster connection...." && kubectl get nodes --show-labels | grep environment=staging-dmz
   - export DOCKER_SECRET=${DMZ_DOCKER_SECRET}
   - export DEPLOY_IMAGE=${DMZ_DOCKER_IMAGE}
-  - export MY_HTTP_PROXY=http://${PROXY_IP}:8080  
-  - export JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom -Djava.awt.headless=true -server -Xms512m -Xmx2024m -XX:NewSize=512m -XX:MaxNewSize=1024m -XX:+UseConcMarkSweepGC -Dhttps.proxyHost=${PROXY_IP} -Dhttps.proxyPort=8080"
   - /bin/bash kube-deploy/deploy.sh
   - echo "Deployment Available Here - https://${APP_HOSTNAME}"
   - "echo For testing - curl --header \"Host: ${APP_HOSTNAME}\" https://192.171.157.24 -vvv -k"
-  - echo http://${APP_HOSTNAME} > environment_url.txt
+  - echo https://${APP_HOSTNAME} > environment_url.txt
   # Save URL in environment_url.txt for DAST/Peformance tests
   artifacts:
     paths:
@@ -178,14 +175,13 @@ deploy to kube prod dmz:
   tags:
     - k8s
   script:
+  - echo "Checking cluster connection...." && kubectl get nodes --show-labels | grep environment=production-dmz
   - export DOCKER_SECRET=${DMZ_DOCKER_SECRET}
   - export DEPLOY_IMAGE=${DMZ_DOCKER_IMAGE}
-  - export MY_HTTP_PROXY=http://${PROXY_IP}:8080  
-  - export JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom -Djava.awt.headless=true -server -Xms512m -Xmx2024m -XX:NewSize=512m -XX:MaxNewSize=1024m -XX:+UseConcMarkSweepGC -Dhttps.proxyHost=${PROXY_IP} -Dhttps.proxyPort=8080"
   - /bin/bash kube-deploy/deploy.sh
   - echo "Deployment Available Here - https://${APP_HOSTNAME}"
   - "echo For testing - curl --header \"Host: ${APP_HOSTNAME}\" https://192.171.157.15 -vvv -k"
-  - echo http://${APP_HOSTNAME} > environment_url.txt
+  - echo https://${APP_HOSTNAME} > environment_url.txt
   # Save URL in environment_url.txt for DAST/Peformance tests
   artifacts:
     paths:
@@ -219,12 +215,17 @@ container_scanning:
     CI_APPLICATION_REPOSITORY: "${CI_REGISTRY_IMAGE}"
     CI_APPLICATION_TAG: "${CI_COMMIT_REF_SLUG}"
     CLAIR_TIMEOUT: "10"
+    GIT_STRATEGY: fetch
+    DOCKERFILE_PATH: "./Dockerfile" 
   artifacts:
     paths: [gl-container-scanning-report.json]
 secret_detection:
   variables:
     SECRET_DETECTION_HISTORIC_SCAN: "true"
-performance:
+browser_performance:
+  stage: performance
+  variables:
+    URL: https://$APP_HOSTNAME
   tags:
     - k8s
 

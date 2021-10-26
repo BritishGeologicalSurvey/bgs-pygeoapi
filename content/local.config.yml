@@ -31,16 +31,16 @@ server:
     bind:
         host: 0.0.0.0
         port: 80
-    url: https://osgeodev.bgs.ac.uk/pygeoapi/
+    url: http://pygeoapi-2018-main.kube-idev.bgslcdevops.test/
     mimetype: application/json; charset=UTF-8
     encoding: utf-8
     language: en-US
     # cors: true
     pretty_print: true
     limit: 10
-    #templates:
-    #    path: /pygeoapi/pygeoapi-skin-dashboard/templates
-    #    static: /pygeoapi/pygeoapi-skin-dashboard/static # css/js/img
+    templates:
+        path: /pygeoapi/bgs-skin-dashboard/templates
+        static: /pygeoapi/bgs-skin-dashboard/static # css/js/img
     map:
         url: https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}.png
         attribution: '<a href="https://www.esri.com/en-us/home">ESRI</a> | Map data &copy; <a href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer">ArcGIS</a>'
@@ -52,19 +52,20 @@ logging:
 
 metadata:
     identification:
-        title: BGS Demo Instance of pygeoapi
-        description: pygeoapi provides an API endpoint for BGS Open Geoscience geospatial data. Code for this implementation can be found at https://github.com/BritishGeologicalSurvey/bgs-pygeoapi 
+        title: British Geological Survey - OGCAPI Server
+        description: This server provides OGCAPI endpoints for a selection of BGS OpenGeoscience geospatial data. The BGS has a wide range of datasets and wants to increase access to these, publishing as many as possible as OpenGeoscience under Open Government Licence. 
         keywords:
             - geospatial
             - data
             - api
+            - ogc
             - geology
         keywords_type: theme
-        terms_of_service: http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+        terms_of_service:  https://www.bgs.ac.uk/legal-and-policy/terms-of-use/
         url: https://bgs.ac.uk
     license:
         name: Open Government Licence
-        url: http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+        url: http://reference.data.gov.uk/id/open-government-licence
     provider:
         name: British Geological Survey
         url: https://bgs.ac.uk
@@ -85,6 +86,52 @@ metadata:
         role: pointOfContact
 
 resources:
+    BGSGeology50kBedrock:
+        type: collection
+        title: BGS Geology 50k Bedrock
+        description: Generalised digital geological map data based on BGS’s New Series 1:50 000 and 1:63 360-scale (one-inch to one-mile) maps with updated nomenclature, including a few 1:100 000-scale maps of Orkney and the Hebrides. Many BGS geology maps are now available digitally. The Digital Geological Map of Great Britain project (formerly known as DiGMapGB) has prepared 1:625 000, 1:250 000, 1:50 000 and 1:10 000-scale datasets for England, Wales and Scotland. Work continues to upgrade these. 
+        keywords:
+            - geology
+            - britain
+#        context:
+#            - schema: http://data.bgs.ac.uk/ref/Lexicon
+#              LEX: schema:notation
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: https://www.bgs.ac.uk/datasets/bgs-geology-50k-digmapgb/
+              hreflang: en-UK
+            - type: text/html
+              rel: canonical
+              title: User Guide
+              href: https://www.bgs.ac.uk/?wpdmdl=13665
+              hreflang: en-UK
+        extents:
+            spatial:
+                bbox: [-8,49.9,2,61]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+            temporal:
+                begin: 2011-11-11
+                end: null  # or empty (either means open ended)
+        providers:
+            - type: tile
+              name: MVT
+              data: /pygeoapi/bgsdata/gb_50k_bedrock/  # local directory tree
+            # data: https://example.org/ne_110m_lakes/{z}/{x}/{y}.pbf
+              options:
+                  metadata_format: tilejson # default | tilejson
+                  bounds: [-7.733181,49.863063,1.763249,60.860926]
+                  zoom:
+                      min: 9
+                      max: 13
+                  schemes:
+                      - WebMercatorQuad
+                      - WorldCRS84Quad
+              format:
+                    name: pbf
+                    mimetype: application/vnd.mapbox-vector-tile
+
     BGSGeology625kBedrock:
         type: collection
         title: BGS Geology 625k Bedrock
@@ -110,24 +157,26 @@ resources:
                 end: null  # or empty (either means open ended)
         providers:
             - type: feature
-              name: GeoJSON
-              data: /pygeoapi/bgsdata/bedrock_geology.geojson
+              name: SQLiteGPKG
+              data: /pygeoapi/bgsdata/bgsgeology625k.gpkg
               id_field: fid
+              table: bedrock_geology
             - type: tile
               name: MVT
-              data: /pygeoapi/bgsdata/tiles/bedrock-geology  # local directory tree
+              data: /pygeoapi/tests/data/tiles/gb_625k_bedrock/  # local directory tree
             # data: https://example.org/ne_110m_lakes/{z}/{x}/{y}.pbf
               options:
-                  metadata_format: raw # default | tilejson
-                  # bounds: [[-9,49.5],[3,61]]
+                  metadata_format: tilejson # default | tilejson
+                  bounds: [[-7.733181,49.863063],[1.763249,60.860926]]
                   zoom:
-                      min: 0
-                      max: 8
+                      min: 6
+                      max: 10
                   schemes:
+                      - WebMercatorQuad
                       - WorldCRS84Quad
               format:
                     name: pbf
-                    mimetype: application/vnd.mapbox-vector-tile              
+                    mimetype: application/vnd.mapbox-vector-tile
 
     BGSGeology625kDykes:
         type: collection
@@ -151,24 +200,10 @@ resources:
                 end: null  # or empty (either means open ended)
         providers:
             - type: feature
-              name: GeoJSON
-              data: /pygeoapi/bgsdata/dykes_geology.geojson
+              name: SQLiteGPKG
+              data: /pygeoapi/bgsdata/bgsgeology625k.gpkg
               id_field: fid
-            - type: tile
-              name: MVT
-              data: /pygeoapi/bgsdata/tiles/dykes-geology  # local directory tree
-            # data: https://example.org/ne_110m_lakes/{z}/{x}/{y}.pbf
-              options:
-                  metadata_format: raw # default | tilejson
-                  # bounds: [[-9,49.5],[3,61]]
-                  zoom:
-                      min: 0
-                      max: 10
-                  schemes:
-                      - WorldCRS84Quad
-              format:
-                    name: pbf
-                    mimetype: application/vnd.mapbox-vector-tile              
+              table: dykes_geology       
 
     BGSGeology625kFaults:
         type: collection
@@ -192,24 +227,10 @@ resources:
                 end: null  # or empty (either means open ended)
         providers:
             - type: feature
-              name: GeoJSON
-              data: /pygeoapi/bgsdata/fault_geology.geojson
+              name: SQLiteGPKG
+              data: /pygeoapi/bgsdata/bgsgeology625k.gpkg
               id_field: fid
-            - type: tile
-              name: MVT
-              data: /pygeoapi/bgsdata/tiles/fault-geology  # local directory tree
-            # data: https://example.org/ne_110m_lakes/{z}/{x}/{y}.pbf
-              options:
-                  metadata_format: raw # default | tilejson
-                  # bounds: [[-9,49.5],[3,61]]
-                  zoom:
-                      min: 0
-                      max: 5
-                  schemes:
-                      - WorldCRS84Quad
-              format:
-                    name: pbf
-                    mimetype: application/vnd.mapbox-vector-tile
+              table: fault_geology
 
     BGSGeology625kSuperficial:
         type: collection
@@ -233,87 +254,8 @@ resources:
                 end: null  # or empty (either means open ended)
         providers:
             - type: feature
-              name: GeoJSON
-              data: /pygeoapi/bgsdata/superficial_geology.geojson
+              name: SQLiteGPKG
+              data: /pygeoapi/bgsdata/bgsgeology625k.gpkg
               id_field: fid
-            - type: tile
-              name: MVT
-              data: /pygeoapi/bgsdata/tiles/superficial-geology  # local directory tree
-            # data: https://example.org/ne_110m_lakes/{z}/{x}/{y}.pbf
-              options:
-                  metadata_format: raw # default | tilejson
-                  # bounds: [[-9,49.5],[3,61]]
-                  zoom:
-                      min: 0
-                      max: 7
-                  schemes:
-                      - WorldCRS84Quad
-              format:
-                    name: pbf
-                    mimetype: application/vnd.mapbox-vector-tile    
+              table: superficial_geology 
 
-    bristoltpo:
-        type: collection
-        title: Bristol Tree Preservation Order
-        description: Bristol Tree Preservation Order 
-        keywords:
-            - trees
-            - britain
-        links:
-            - type: text/html
-              rel: canonical
-              title: information
-              href: https://opendata.bristol.gov.uk/explore/dataset/tree-preservation-order-trunk/information/
-              hreflang: en-UK
-        extents:
-            spatial:
-                bbox: [-9,49.5,3,61]
-                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-            temporal:
-                begin: 2011-11-11
-                end: null  # or empty (either means open ended)
-        providers:
-            - type: feature
-              name: GeoJSON
-              data: /pygeoapi/bgsdata/tree-preservation-order-trunk.geojson
-              id_field: fid
-                            
-
-#    bgsgeology625kwfsbedrock:
-#        type: collection
-#        title: BGS Geology 625k WFS Bedrock Lithology
-#        description: The 1:625k DiGMap data covering the whole of the United Kingdom is available in this OGC WFS service for all uses - including commercial use subject to the conditions in the Access Constraints section. It is being served as a contribution to the OneGeology initiative (www.onegeology.org). The contents of this WFS service are not intended for direct use but are transformed by a mediator layer into separate WFS services which provide data in GeoSciML. This process is described in Chapter 2 of the OneGeology WFS Cookbook available at www.onegeology.org. Links to the transformed WFS services can be found at http://ogc.bgs.ac.uk/digmap625k_gsml31_gp/wfs?service=WFS&version=2.0.0&request=GetFeature&count=10&typename=gsml:MappedFeature&. For information about more of the British Geological Survey's maps that are available digitally please visit http://www.bgs.ac.uk/products/digitalmaps/digmapgb.html 
-#        keywords:
-#            - geology
-#            - britain
-#            - GeoSciML
-#        links:
-#            - type: text/html
-#              rel: canonical
-#              title: information
-#              href: http://www.bgs.ac.uk/products/digitalmaps/digmapgb.html
-#              hreflang: en-UK
-#        extents:
-#            spatial:
-#                bbox: [-9,49.5,3,61]
-#                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-#            temporal:
-#                begin: 2015-11-11
-#                end: null  # or empty (either means open ended)  
-#        providers:
-#            - type: feature
-#              name: OGR
-#              data:
-#                  source_type: WFS
-#                  source: WFS:http://ogc.bgs.ac.uk/cgi-bin/BGS_Bedrock_and_Superficial_Geology/ows?
- #                 source_options:
-#                      VERSION: 2.0.0
-#                      OGR_WFS_PAGING_ALLOWED: YES
-#                      OGR_WFS_LOAD_MULTIPLE_LAYER_DEFN: NO
-#                  gdal_ogr_options:
-#                      GDAL_CACHEMAX: 64
-                  #    GDAL_HTTP_PROXY: 
-                  #    GDAL_PROXY_AUTH: 
-#                      CPL_DEBUG: NO
-#              id_field: gml_id
-#              layer: ms:GBR_BGS_625k_BLT  
